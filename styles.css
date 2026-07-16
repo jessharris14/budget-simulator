@@ -515,27 +515,23 @@ h1, h2, h3 {
   outline: none;
 }
 
-.info-tooltip {
+.floating-tooltip {
   display: none;
-  position: absolute;
-  z-index: 20;
-  top: 130%;
-  left: 0;
+  position: fixed;
+  z-index: 1000;
   width: 240px;
+  max-width: calc(100vw - 16px);
   background: var(--white);
   color: var(--body-black);
   border: 1px solid var(--river-blue);
   border-radius: 8px;
   padding: 0.6rem 0.7rem;
+  font-family: 'Inter', sans-serif;
   font-size: 0.78rem;
   font-weight: 400;
   line-height: 1.4;
   box-shadow: 0 4px 14px rgba(29, 66, 137, 0.18);
-}
-
-.info-wrap:hover .info-tooltip,
-.info-tooltip.visible {
-  display: block;
+  pointer-events: none;
 }
 
 .review-badge {

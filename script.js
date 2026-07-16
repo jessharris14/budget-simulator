@@ -341,8 +341,7 @@ function renderSection(categoryList, gridEl, stateObj, commentsObj, onChange) {
               <span class="subcategory-name-wrap">
                 <span class="subcategory-name">${sub.name}</span>
                 <span class="info-wrap">
-                  <button type="button" class="info-btn" aria-label="What does ${sub.name} cover?">i</button>
-                  <span class="info-tooltip" role="tooltip">${sub.desc}</span>
+                  <button type="button" class="info-btn" aria-label="What does ${sub.name} cover?" aria-describedby="floatingTooltip">i</button>
                 </span>
                 <span class="locked-badge">Locked</span>
                 ${reviewBadge}
@@ -365,8 +364,7 @@ function renderSection(categoryList, gridEl, stateObj, commentsObj, onChange) {
             <span class="subcategory-name-wrap">
               <span class="subcategory-name">${sub.name}</span>
               <span class="info-wrap">
-                <button type="button" class="info-btn" aria-label="What does ${sub.name} cover?">i</button>
-                <span class="info-tooltip" role="tooltip">${sub.desc}</span>
+                <button type="button" class="info-btn" aria-label="What does ${sub.name} cover?" aria-describedby="floatingTooltip">i</button>
               </span>
               ${reviewBadge}
             </span>
@@ -418,18 +416,27 @@ function renderSection(categoryList, gridEl, stateObj, commentsObj, onChange) {
       toggleBtn.setAttribute('aria-expanded', String(!expanded));
       card.classList.toggle('expanded', !expanded);
       subList.style.maxHeight = expanded ? '0px' : `${subListInner.scrollHeight}px`;
+      hideFloatingTooltip();
     });
 
     category.subcategories.forEach(sub => {
       const row = card.querySelector(`.subcategory-row[data-key="${sub.key}"]`);
       const infoBtn = row.querySelector('.info-btn');
-      const infoTooltip = row.querySelector('.info-tooltip');
+      infoBtn.dataset.desc = sub.desc;
 
+      infoBtn.addEventListener('mouseenter', () => showFloatingTooltip(infoBtn));
+      infoBtn.addEventListener('focus', () => showFloatingTooltip(infoBtn));
+      infoBtn.addEventListener('mouseleave', restoreOrHideTooltip);
+      infoBtn.addEventListener('blur', restoreOrHideTooltip);
       infoBtn.addEventListener('click', (e) => {
         e.stopPropagation();
-        const isVisible = infoTooltip.classList.contains('visible');
-        document.querySelectorAll('.info-tooltip.visible').forEach(t => t.classList.remove('visible'));
-        if (!isVisible) infoTooltip.classList.add('visible');
+        if (pinnedTooltipBtn === infoBtn) {
+          pinnedTooltipBtn = null;
+          hideFloatingTooltip();
+        } else {
+          pinnedTooltipBtn = infoBtn;
+          showFloatingTooltip(infoBtn);
+        }
       });
 
       const commentInput = row.querySelector('.subcategory-comment');
@@ -478,10 +485,72 @@ function renderSection(categoryList, gridEl, stateObj, commentsObj, onChange) {
   });
 }
 
+// Shared tooltip, portaled to <body> so it can escape the accordion's
+// overflow: hidden (required for the collapse animation) and render above
+// neighboring cards instead of being clipped by them.
+const floatingTooltip = document.createElement('div');
+floatingTooltip.className = 'floating-tooltip';
+floatingTooltip.id = 'floatingTooltip';
+floatingTooltip.setAttribute('role', 'tooltip');
+document.body.appendChild(floatingTooltip);
+
+let pinnedTooltipBtn = null;
+
+function positionFloatingTooltip(btn) {
+  const margin = 8;
+  const rect = btn.getBoundingClientRect();
+  const tw = floatingTooltip.offsetWidth;
+  const th = floatingTooltip.offsetHeight;
+
+  let left = rect.left;
+  if (left + tw > window.innerWidth - margin) {
+    left = window.innerWidth - tw - margin;
+  }
+  left = Math.max(margin, left);
+
+  let top = rect.bottom + 6;
+  if (top + th > window.innerHeight - margin) {
+    top = rect.top - th - 6;
+  }
+  top = Math.max(margin, top);
+
+  floatingTooltip.style.left = `${left}px`;
+  floatingTooltip.style.top = `${top}px`;
+}
+
+function showFloatingTooltip(btn) {
+  floatingTooltip.textContent = btn.dataset.desc;
+  floatingTooltip.style.display = 'block';
+  positionFloatingTooltip(btn);
+}
+
+function hideFloatingTooltip() {
+  floatingTooltip.style.display = 'none';
+}
+
+function restoreOrHideTooltip() {
+  if (pinnedTooltipBtn) {
+    showFloatingTooltip(pinnedTooltipBtn);
+  } else {
+    hideFloatingTooltip();
+  }
+}
+
 document.addEventListener('click', (e) => {
   if (!e.target.closest('.info-wrap')) {
-    document.querySelectorAll('.info-tooltip.visible').forEach(t => t.classList.remove('visible'));
+    pinnedTooltipBtn = null;
+    hideFloatingTooltip();
   }
+});
+
+window.addEventListener('scroll', () => {
+  pinnedTooltipBtn = null;
+  hideFloatingTooltip();
+}, { passive: true, capture: true });
+
+window.addEventListener('resize', () => {
+  pinnedTooltipBtn = null;
+  hideFloatingTooltip();
 });
 
 const allocatedValueEl = document.getElementById('allocatedValue');
