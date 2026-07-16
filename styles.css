@@ -611,12 +611,22 @@ input[type="range"]::-moz-range-thumb {
   background: var(--sky-blue);
 }
 
+.submit-btn:disabled {
+  background: var(--neutral-gray);
+  color: #6b7280;
+  cursor: not-allowed;
+}
+
 .submit-note {
   margin-top: 0.9rem;
   font-size: 0.9rem;
   font-weight: 600;
   color: var(--river-blue);
   min-height: 1.2em;
+}
+
+.submit-note.submit-error {
+  color: var(--warm-red);
 }
 
 .site-footer {
