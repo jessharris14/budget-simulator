@@ -1,29 +1,32 @@
+// All amounts below are FY2025 General Fund ACTUALS (the F65's "General
+// Fund" column) — not the "General Fund Final Amended Budget" column used
+// in earlier versions of this app.
 const CATEGORIES = [
   {
     id: 'general-government',
     name: 'General Government',
     desc: 'County board, administration, clerk, treasurer, assessing, elections, buildings and grounds.',
     subcategories: [
-      { name: 'Legislative (Council, Board, Commission)', amount: 1415542,
+      { name: 'Legislative (Council, Board, Commission)', amount: 1331752,
         desc: "Funds the Kent County Board of Commissioners, including commissioner compensation, meetings, and legislative support staff." },
-      { name: 'Chief Executive', amount: 4351846,
+      { name: 'Chief Executive', amount: 4118016,
         desc: "Funds the County Administrator/Controller's office, which runs day-to-day county operations under the Board's direction." },
-      { name: 'Treasurer', amount: 1503388,
+      { name: 'Treasurer', amount: 1382872,
         desc: "Funds the County Treasurer's office, which collects property taxes and manages county investments and cash." },
-      { name: 'Clerk', amount: 3381946,
+      { name: 'Clerk', amount: 3304951,
         desc: "Funds the County Clerk's office, which maintains vital records, court records, and the county archive." },
-      { name: 'Assessing Equalization', amount: 1869048,
+      { name: 'Assessing Equalization', amount: 1686589,
         desc: "Funds property assessment and equalization work that sets taxable property values across the county." },
-      { name: 'Finance and Tax Administration', amount: 2691879,
+      { name: 'Finance and Tax Administration', amount: 2543053,
         desc: "Funds general financial management and tax administration functions.",
         ambiguous: true },
-      { name: 'Elections', amount: 1239620,
+      { name: 'Elections', amount: 1227320,
         desc: "Funds the administration of county and local elections, including staffing, equipment, and ballot processing." },
-      { name: 'Building and Grounds', amount: 15483031,
+      { name: 'Building and Grounds', amount: 15220708,
         desc: "Funds maintenance, utilities, and upkeep of county-owned buildings and grounds." },
-      { name: 'Attorney/Corporation Counsel', amount: 390000,
+      { name: 'Attorney/Corporation Counsel', amount: 342762,
         desc: "Funds legal counsel services provided to Kent County." },
-      { name: 'All Other General Government', amount: 14241046,
+      { name: 'All Other General Government', amount: 13167739,
         desc: "A catch-all line covering general administrative functions not itemized elsewhere in the form, such as HR, IT, or purchasing.",
         ambiguous: true }
     ]
@@ -33,17 +36,17 @@ const CATEGORIES = [
     name: 'Judicial',
     desc: 'Circuit, district, and probate courts, court libraries, probation, and the prosecuting attorney.',
     subcategories: [
-      { name: 'Circuit Court', amount: 17669316,
+      { name: 'Circuit Court', amount: 16369357,
         desc: "Funds the 17th Circuit Court, which hears felony criminal cases, civil cases, and family law matters." },
-      { name: 'District/Municipal Court', amount: 3773439,
+      { name: 'District/Municipal Court', amount: 3621784,
         desc: "Funds the 63rd District Court, which handles misdemeanors, traffic violations, and smaller civil claims." },
-      { name: 'Law Library', amount: 22000,
+      { name: 'Law Library', amount: 15824,
         desc: "Funds the county law library, which provides legal research materials for courts, attorneys, and the public." },
-      { name: 'Probate Court', amount: 2802393,
+      { name: 'Probate Court', amount: 2717176,
         desc: "Funds the Probate Court, which handles wills, estates, guardianships, and mental health commitments." },
-      { name: 'Probation', amount: 35334,
+      { name: 'Probation', amount: 18295,
         desc: "Funds probation services that supervise people sentenced to community supervision instead of jail." },
-      { name: 'Prosecuting Attorney', amount: 6267402,
+      { name: 'Prosecuting Attorney', amount: 6047358,
         desc: "Funds the Prosecutor's Office which prosecutes criminal cases on behalf of the county." }
     ]
   },
@@ -52,19 +55,19 @@ const CATEGORIES = [
     name: 'Public Safety',
     desc: 'Sheriff, corrections and jail, 911 dispatch, and other public safety operations.',
     subcategories: [
-      { name: 'Police/Sheriff/Constable', amount: 31676271,
+      { name: 'Police/Sheriff/Constable', amount: 31535288,
         desc: "Funds the Kent County Sheriff's Office, including patrol, investigations, and general law enforcement." },
       { name: 'Fire', amount: 0,
-        desc: "The form lists a Fire line item, but Kent County budgets $0 to it from the General Fund — fire protection appears to be funded through other county funds.",
+        desc: "The form lists a Fire line item, but Kent County's General Fund actuals show $0 here — fire protection appears to be funded through other county funds.",
         ambiguous: true },
       { name: 'Combined Public Safety Department', amount: 0,
         desc: "A line item for a merged police/fire department model; Kent County reports $0 here, suggesting it doesn't use this structure.",
         ambiguous: true },
-      { name: 'Emergency 911 Dispatch Activities', amount: 6858891,
+      { name: 'Emergency 911 Dispatch Activities', amount: 6850913,
         desc: "Funds county emergency dispatch, which routes 911 calls to police, fire, and EMS providers." },
-      { name: 'Corrections/Jail', amount: 52110177,
+      { name: 'Corrections/Jail', amount: 50193370,
         desc: "Funds operation of the Kent County Correctional Facility, including staffing and inmate services." },
-      { name: 'All Other Public Safety Activities', amount: 3014660,
+      { name: 'All Other Public Safety Activities', amount: 2767159,
         desc: "A catch-all line covering public safety functions not itemized elsewhere, such as animal control or emergency management.",
         ambiguous: true }
     ]
@@ -74,7 +77,7 @@ const CATEGORIES = [
     name: 'Public Works',
     desc: 'County road, sanitation, and other public works activities funded through the General Fund.',
     subcategories: [
-      { name: 'All Other Public Works', amount: 1366787,
+      { name: 'All Other Public Works', amount: 1351084,
         desc: "The only Public Works line funded through the General Fund; roads, sanitation, and airports are funded through other county funds and aren't broken out here.",
         ambiguous: true }
     ]
@@ -84,17 +87,17 @@ const CATEGORIES = [
     name: 'Health and Welfare',
     desc: 'Substance abuse services, the medical examiner, mental health, and other health and welfare programs.',
     subcategories: [
-      { name: 'Alcoholism and Substance Abuse', amount: 2900000,
+      { name: 'Alcoholism and Substance Abuse', amount: 2635169,
         desc: "Funds county substance abuse prevention, treatment, and recovery programs." },
-      { name: 'Medical Examiner', amount: 2042188,
+      { name: 'Medical Examiner', amount: 1710274,
         desc: "Funds the County Medical Examiner's Office, which investigates deaths requiring an official cause determination." },
       { name: 'Mental Health', amount: 2025942,
         desc: "Funds county-level mental health services and programs." },
-      { name: 'Human Services & Medical Care Facility', amount: 492068,
+      { name: 'Human Services & Medical Care Facility', amount: 457276,
         desc: "Funds county human services programs and any county-operated medical care facility." },
-      { name: 'Area Agency on Aging', amount: 16110,
+      { name: 'Area Agency on Aging', amount: 15560,
         desc: "Funds services supporting older adults through the Area Agency on Aging of West Michigan, such as meal programs and senior services coordination." },
-      { name: 'All Other Health & Welfare', amount: 1465000,
+      { name: 'All Other Health & Welfare', amount: 1393836,
         desc: "A catch-all line covering health and welfare functions not itemized elsewhere in the form.",
         ambiguous: true }
     ]
@@ -106,9 +109,9 @@ const CATEGORIES = [
     subcategories: [
       { name: 'Economic Development', amount: 300000,
         desc: "Funds county programs that support business growth, job creation, and economic development initiatives." },
-      { name: 'Register of Deeds', amount: 715016,
+      { name: 'Register of Deeds', amount: 620184,
         desc: "Funds the Register of Deeds office, which records and maintains property deeds and land records." },
-      { name: 'All Other Community Development', amount: 531535,
+      { name: 'All Other Community Development', amount: 512521,
         desc: "A catch-all line covering community development functions not itemized elsewhere in the form.",
         ambiguous: true }
     ]
@@ -118,7 +121,7 @@ const CATEGORIES = [
     name: 'Recreation and Culture',
     desc: 'County parks and recreation programming.',
     subcategories: [
-      { name: 'Parks and Recreation', amount: 7649357,
+      { name: 'Parks and Recreation', amount: 7641332,
         desc: "Funds county parks, trails, and recreational facilities and programming." },
       { name: 'All Other Recreation and Culture', amount: 82266,
         desc: "A catch-all line covering recreation and culture functions not itemized elsewhere in the form.",
@@ -142,10 +145,21 @@ const CATEGORIES = [
     name: 'Transfers to Other Funds',
     desc: 'Transfers from the General Fund to other county funds and component units.',
     subcategories: [
-      { name: 'Transfers (Out)', amount: 55199433,
+      { name: 'Transfers (Out)', amount: 53324149,
         desc: "Funds transfers from the General Fund to other county funds, such as special revenue or capital project funds, to support their operations.",
         locked: true,
         lockNote: "These transfers are legally committed to other county funds and can't be adjusted by residents." }
+    ]
+  },
+  {
+    id: 'addition-to-reserves',
+    name: 'Addition to Reserves',
+    desc: 'The surplus Kent County added to its fund balance (savings) rather than spending, per the FY2025 General Fund actuals.',
+    subcategories: [
+      { name: 'Addition to Reserves', amount: 2980522,
+        desc: "Reflects the county's actual increase to its General Fund balance for FY2025 — money set aside in reserves rather than spent on services.",
+        locked: true,
+        lockNote: "This is money the county actually set aside in reserves, not resident-facing spending, and it can't be adjusted by residents." }
     ]
   }
 ];
@@ -156,14 +170,24 @@ const REVENUE_CATEGORIES = [
     name: 'Tax Revenue',
     desc: 'Property taxes and other tax collections that fund the General Fund.',
     subcategories: [
-      { name: 'Payment in-Lieu-of Taxes (PILOT)', amount: 272000,
+      { name: 'Payment in-Lieu-of Taxes (PILOT)', amount: 305052,
         desc: "Payments made by tax-exempt property owners, such as certain nonprofits or housing authorities, in place of regular property taxes." },
-      { name: 'Trailer Taxes (Act 243 of 1959)', amount: 55000,
+      { name: 'Trailer Taxes (Act 243 of 1959)', amount: 59530,
         desc: "A state-authorized specific tax collected on mobile homes instead of standard property tax." },
-      { name: 'Industrial Facilities Tax (Act 198 of 1974)', amount: 775000,
+      { name: 'Industrial Facilities Tax (Act 198 of 1974)', amount: 748607,
         desc: "A reduced-rate property tax paid by industrial facilities granted state tax abatements to encourage investment." },
-      { name: 'Property Tax', amount: 137890810,
+      { name: 'Property Tax', amount: 140642108,
         desc: "The county's general property tax levy, including delinquent payments, penalties, interest, and community-wide special assessments." }
+    ]
+  },
+  {
+    id: 'special-assessments',
+    name: 'Special Assessments',
+    desc: 'Assessments charged to specific properties for improvements that benefit them, such as roads or utilities.',
+    subcategories: [
+      { name: 'Special Assessments (General Fund)', amount: 0,
+        desc: "Kent County collects special assessments, but records that revenue entirely in other county funds — the General Fund actuals show $0 here for FY2025.",
+        ambiguous: true }
     ]
   },
   {
@@ -171,19 +195,10 @@ const REVENUE_CATEGORIES = [
     name: 'Licenses and Permits',
     desc: 'Fees collected for business and non-business licenses and permits.',
     subcategories: [
-      { name: 'Business Licenses and Permits', amount: 3900,
+      { name: 'Business Licenses and Permits', amount: 7020,
         desc: "Fees collected for business-related licenses and permits issued by the county." },
-      { name: 'Non-Business Licenses and Permits', amount: 304000,
+      { name: 'Non-Business Licenses and Permits', amount: 211997,
         desc: "Fees collected for other licenses and permits issued to residents, such as certain personal or property-related permits." }
-    ]
-  },
-  {
-    id: 'fines-forfeits',
-    name: 'Fines and Forfeits',
-    desc: 'Revenue from court fines and forfeited bonds or property.',
-    subcategories: [
-      { name: 'All Fines, Penalties & Forfeits', amount: 1349010,
-        desc: "Revenue from court fines, civil infraction penalties, and forfeited bonds or property." }
     ]
   },
   {
@@ -191,9 +206,10 @@ const REVENUE_CATEGORIES = [
     name: 'Federal Grants',
     desc: 'Federal grant funding received by the county.',
     subcategories: [
-      { name: 'Federal Grant Revenue (General Fund)', amount: 0,
-        desc: "Kent County receives federal grants for public safety, health, welfare, and other programs, but records that funding in other county funds — the General Fund budgets $0 here for FY2025.",
-        ambiguous: true }
+      { name: 'Federal Grants', amount: 67068,
+        desc: "Federal grant revenue Kent County actually received in the General Fund for FY2025, supporting public safety programs.",
+        locked: true,
+        lockNote: "Federal grant terms are set by the awarding federal agency and can't be adjusted locally." }
     ]
   },
   {
@@ -201,13 +217,21 @@ const REVENUE_CATEGORIES = [
     name: 'State Grants',
     desc: 'State revenue sharing and other state grant funding.',
     subcategories: [
-      { name: 'State Revenue Sharing', amount: 15299452,
-        desc: "Funding the state distributes to counties from state sales and other tax revenue, for general county use." },
-      { name: 'Public Safety', amount: 2704000,
-        desc: "State grant funding supporting county public safety programs." },
-      { name: 'Other General/All Other State Aid Grants', amount: 11091000,
-        desc: "A catch-all line covering other state grant funding not itemized elsewhere in the form.",
-        ambiguous: true }
+      { name: 'State Grants', amount: 31247097,
+        desc: "Combines state revenue sharing, public safety grants, and other state aid actually received in the General Fund for FY2025.",
+        locked: true,
+        lockNote: "State revenue sharing and grant amounts are set by the State of Michigan and can't be adjusted locally." }
+    ]
+  },
+  {
+    id: 'contributions-local-units',
+    name: 'Contributions from Local Units',
+    desc: 'Payments from cities, townships, and other local governments toward shared county services.',
+    subcategories: [
+      { name: 'Public Safety', amount: 1951916,
+        desc: "Contributions from local units of government toward shared public safety services." },
+      { name: 'Culture and Recreation', amount: 12261,
+        desc: "Contributions from local units of government toward shared culture and recreation programs." }
     ]
   },
   {
@@ -215,15 +239,24 @@ const REVENUE_CATEGORIES = [
     name: 'Charges for Services',
     desc: 'Fees the county charges for services it provides to residents and businesses.',
     subcategories: [
-      { name: 'All Other Services Rendered Charges', amount: 16610673,
+      { name: 'All Other Services Rendered Charges', amount: 16296107,
         desc: "Fees charged for county services, such as recording documents, inspections, or administrative processing.",
         ambiguous: true },
-      { name: 'All Other Sales, Use, & Admission Fees', amount: 4024410,
+      { name: 'All Other Sales, Use, & Admission Fees', amount: 4416005,
         desc: "Fees from admissions, sales, and use charges for county facilities and programs, such as parks or recreation sites.",
         ambiguous: true },
-      { name: 'All Other Fees', amount: 9670000,
+      { name: 'All Other Fees', amount: 10454527,
         desc: "A catch-all line covering other service fees not itemized elsewhere in the form.",
         ambiguous: true }
+    ]
+  },
+  {
+    id: 'fines-forfeits',
+    name: 'Fines and Forfeits',
+    desc: 'Revenue from court fines and forfeited bonds or property.',
+    subcategories: [
+      { name: 'All Fines, Penalties & Forfeits', amount: 1381434,
+        desc: "Revenue from court fines, civil infraction penalties, and forfeited bonds or property." }
     ]
   },
   {
@@ -231,10 +264,10 @@ const REVENUE_CATEGORIES = [
     name: 'Interest and Rents',
     desc: 'Investment income and rental income from county-owned property.',
     subcategories: [
-      { name: 'Interest & Dividends', amount: 5000000,
-        desc: "Investment income earned on the county's cash and investment balances." },
-      { name: 'Rents & Royalties', amount: 3081200,
-        desc: "Income from leasing or renting county-owned property and facilities." }
+      { name: 'Interest and Rents', amount: 7456818,
+        desc: "Combines investment income and rental income the county actually earned in the General Fund for FY2025.",
+        locked: true,
+        lockNote: "Investment returns and lease terms are set by market conditions and existing agreements, and can't be adjusted locally." }
     ]
   },
   {
@@ -242,17 +275,19 @@ const REVENUE_CATEGORIES = [
     name: 'Other Revenue',
     desc: 'Reimbursements, asset sales, contributions, and other miscellaneous revenue.',
     subcategories: [
-      { name: 'Reimbursements', amount: 3154714,
-        desc: "Payments received from other governments, agencies, or parties reimbursing the county for shared costs or services." },
-      { name: 'Sale of Capital Assets', amount: 170000,
-        desc: "Proceeds from selling county-owned equipment, vehicles, land, or other capital assets." },
-      { name: 'Public and Private Contributions', amount: 3034090,
-        desc: "Donations and contributions from individuals, organizations, or businesses to support county programs." },
-      { name: 'Refunds & Rebates', amount: 50,
-        desc: "Refunds and rebates received back from vendors, insurers, or other payments the county previously made." },
-      { name: 'Miscellaneous/Other Revenue', amount: 85720,
-        desc: "A catch-all line covering revenue not itemized elsewhere in the form.",
-        ambiguous: true }
+      { name: 'Other Revenue', amount: 6917240,
+        desc: "Combines reimbursements, capital asset sales, donations, and other miscellaneous revenue actually received in the General Fund for FY2025.",
+        locked: true,
+        lockNote: "This combines revenue tied to prior agreements or one-time transactions and isn't adjustable locally." }
+    ]
+  },
+  {
+    id: 'other-financing-sources',
+    name: 'Other Financing Sources',
+    desc: 'Transfers into the General Fund from other county funds.',
+    subcategories: [
+      { name: 'Transfers In', amount: 18965193,
+        desc: "Funds transferred into the General Fund from other county funds to support General Fund operations." }
     ]
   }
 ];
@@ -558,11 +593,58 @@ const budgetValueEl = document.getElementById('budgetValue');
 
 budgetValueEl.textContent = formatCurrency(TOTAL_BUDGET);
 
-// The composition chart shows the resident's mix across the 8 main spending
-// categories only — inter-fund transfers aren't a resident spending priority,
-// so they're excluded from this breakdown (they still count toward the
-// overall Surplus/Balanced/Deficit total below).
-const CHART_CATEGORIES = CATEGORIES.filter(c => c.id !== 'other-financing-uses');
+// Builds a stacked composition bar + legend into the given elements and
+// returns an update() function. Used for both the expenditure chart (money
+// going out) and the revenue chart (money coming in) — each shows only its
+// adjustable categories; locked/fixed lines still count toward the overall
+// Surplus/Balanced/Deficit total but aren't part of either breakdown.
+function createCompositionChart(chartCategories, colors, barEl, legendEl, stateObj) {
+  const segmentEls = {};
+  const segmentLabelEls = {};
+  const legendPercentEls = {};
+
+  chartCategories.forEach(category => {
+    const segment = document.createElement('div');
+    segment.className = 'composition-segment';
+    segment.style.background = colors[category.id];
+    segment.innerHTML = '<span class="segment-label"></span>';
+    barEl.appendChild(segment);
+    segmentEls[category.id] = segment;
+    segmentLabelEls[category.id] = segment.querySelector('.segment-label');
+
+    const legendRow = document.createElement('div');
+    legendRow.className = 'legend-row';
+    legendRow.innerHTML = `
+      <span class="legend-swatch" style="background:${colors[category.id]}"></span>
+      <span class="legend-name">${category.name}</span>
+      <span class="legend-percent"></span>
+    `;
+    legendEl.appendChild(legendRow);
+    legendPercentEls[category.id] = legendRow.querySelector('.legend-percent');
+  });
+
+  return function update() {
+    const totals = chartCategories.map(category => ({
+      category,
+      total: category.subcategories.reduce((sum, sub) => sum + stateObj[sub.key], 0)
+    }));
+    const chartSum = totals.reduce((sum, t) => sum + t.total, 0);
+
+    totals.forEach(({ category, total }) => {
+      const pct = chartSum > 0 ? (total / chartSum) * 100 : 0;
+      const segment = segmentEls[category.id];
+      segment.style.width = `${pct}%`;
+      segment.title = `${category.name}: ${formatCurrency(total)} (${pct.toFixed(1)}%)`;
+      segmentLabelEls[category.id].textContent = pct >= 6 ? `${category.name} ${pct.toFixed(0)}%` : '';
+      legendPercentEls[category.id].textContent = `${pct.toFixed(1)}%`;
+    });
+  };
+}
+
+// Expenditure chart: the 8 main spending categories. Transfers to Other
+// Funds and Addition to Reserves are locked, non-spending lines, so they're
+// excluded from this breakdown.
+const CHART_CATEGORIES = CATEGORIES.filter(c => c.id !== 'other-financing-uses' && c.id !== 'addition-to-reserves');
 
 const CHART_COLORS = {
   'general-government': '#2660b8',
@@ -575,48 +657,38 @@ const CHART_COLORS = {
   'other': '#a8623a'
 };
 
-const compositionBar = document.getElementById('compositionBar');
-const compositionLegend = document.getElementById('compositionLegend');
-const segmentEls = {};
-const segmentLabelEls = {};
-const legendPercentEls = {};
+const updateComposition = createCompositionChart(
+  CHART_CATEGORIES,
+  CHART_COLORS,
+  document.getElementById('compositionBar'),
+  document.getElementById('compositionLegend'),
+  state
+);
 
-CHART_CATEGORIES.forEach(category => {
-  const segment = document.createElement('div');
-  segment.className = 'composition-segment';
-  segment.style.background = CHART_COLORS[category.id];
-  segment.innerHTML = '<span class="segment-label"></span>';
-  compositionBar.appendChild(segment);
-  segmentEls[category.id] = segment;
-  segmentLabelEls[category.id] = segment.querySelector('.segment-label');
+// Revenue chart: only the adjustable revenue categories. Federal Grants,
+// State Grants, Interest and Rents, and Other Revenue are locked, so they're
+// excluded from this breakdown (they still count toward the total below).
+const REVENUE_CHART_CATEGORIES = REVENUE_CATEGORIES.filter(
+  c => !['federal-grants', 'state-grants', 'interest-rents', 'other-revenue'].includes(c.id)
+);
 
-  const legendRow = document.createElement('div');
-  legendRow.className = 'legend-row';
-  legendRow.innerHTML = `
-    <span class="legend-swatch" style="background:${CHART_COLORS[category.id]}"></span>
-    <span class="legend-name">${category.name}</span>
-    <span class="legend-percent"></span>
-  `;
-  compositionLegend.appendChild(legendRow);
-  legendPercentEls[category.id] = legendRow.querySelector('.legend-percent');
-});
+const REVENUE_CHART_COLORS = {
+  'tax-revenue': '#2a78d6',
+  'special-assessments': '#008300',
+  'licenses-permits': '#e87ba4',
+  'contributions-local-units': '#eda100',
+  'charges-for-services': '#1baf7a',
+  'fines-forfeits': '#eb6834',
+  'other-financing-sources': '#4a3aa7'
+};
 
-function updateComposition() {
-  const totals = CHART_CATEGORIES.map(category => ({
-    category,
-    total: category.subcategories.reduce((sum, sub) => sum + state[sub.key], 0)
-  }));
-  const chartSum = totals.reduce((sum, t) => sum + t.total, 0);
-
-  totals.forEach(({ category, total }) => {
-    const pct = chartSum > 0 ? (total / chartSum) * 100 : 0;
-    const segment = segmentEls[category.id];
-    segment.style.width = `${pct}%`;
-    segment.title = `${category.name}: ${formatCurrency(total)} (${pct.toFixed(1)}%)`;
-    segmentLabelEls[category.id].textContent = pct >= 6 ? `${category.name} ${pct.toFixed(0)}%` : '';
-    legendPercentEls[category.id].textContent = `${pct.toFixed(1)}%`;
-  });
-}
+const updateRevenueComposition = createCompositionChart(
+  REVENUE_CHART_CATEGORIES,
+  REVENUE_CHART_COLORS,
+  document.getElementById('revenueCompositionBar'),
+  document.getElementById('revenueCompositionLegend'),
+  revenueState
+);
 
 const budgetStatusEl = document.getElementById('budgetStatus');
 const statusDot = document.getElementById('statusDot');
@@ -628,19 +700,25 @@ function getBudgetStatusLabel(diff) {
   return diff < 0 ? 'Surplus' : 'Deficit';
 }
 
-function updateBudgetStatus(allocated) {
-  const diff = allocated - TOTAL_BUDGET;
+// Status compares the resident's adjusted revenue total to their adjusted
+// expenditure total (not either side to its own fixed starting budget), so
+// offsetting changes on both sides — e.g. +$1M revenue and +$1M spending —
+// leave the status unchanged.
+function updateBudgetStatus() {
+  const expenditureAllocated = Object.values(state).reduce((sum, v) => sum + v, 0);
+  const revenueAllocated = Object.values(revenueState).reduce((sum, v) => sum + v, 0);
+  const diff = expenditureAllocated - revenueAllocated;
   const label = getBudgetStatusLabel(diff);
   budgetStatusEl.classList.remove('status-surplus', 'status-balanced', 'status-deficit');
   budgetStatusEl.classList.add(`status-${label.toLowerCase()}`);
   statusLabel.textContent = label;
 
   if (label === 'Balanced') {
-    statusDetail.textContent = 'Your allocation matches the starting county budget exactly.';
+    statusDetail.textContent = 'Your planned revenue matches your planned expenditures exactly.';
   } else if (label === 'Surplus') {
-    statusDetail.textContent = `${formatCurrency(Math.abs(diff))} under the starting county budget.`;
+    statusDetail.textContent = `${formatCurrency(Math.abs(diff))} more revenue than planned expenditures.`;
   } else {
-    statusDetail.textContent = `${formatCurrency(diff)} over the starting county budget.`;
+    statusDetail.textContent = `${formatCurrency(diff)} more planned expenditures than revenue.`;
   }
 }
 
@@ -648,7 +726,7 @@ function updateTotal() {
   const allocated = Object.values(state).reduce((sum, v) => sum + v, 0);
   allocatedValueEl.textContent = formatCurrency(allocated);
   updateComposition();
-  updateBudgetStatus(allocated);
+  updateBudgetStatus();
 }
 
 const revenueBudgetValueEl = document.getElementById('revenueBudgetValue');
@@ -658,6 +736,8 @@ revenueBudgetValueEl.textContent = formatCurrency(TOTAL_REVENUE_BUDGET);
 function updateRevenueTotal() {
   const allocated = Object.values(revenueState).reduce((sum, v) => sum + v, 0);
   revenueAllocatedValueEl.textContent = formatCurrency(allocated);
+  updateRevenueComposition();
+  updateBudgetStatus();
 }
 
 const categoryGrid = document.getElementById('categoryGrid');
@@ -688,7 +768,7 @@ function buildAllocationLog(categoryList, stateObj, commentsObj) {
 submitBtn.addEventListener('click', async () => {
   const allocated = Object.values(state).reduce((sum, v) => sum + v, 0);
   const revenueAllocated = Object.values(revenueState).reduce((sum, v) => sum + v, 0);
-  const difference = allocated - TOTAL_BUDGET;
+  const difference = allocated - revenueAllocated;
   const status = getBudgetStatusLabel(difference);
 
   const submission = {
