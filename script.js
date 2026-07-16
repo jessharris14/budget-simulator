@@ -628,19 +628,25 @@ function getBudgetStatusLabel(diff) {
   return diff < 0 ? 'Surplus' : 'Deficit';
 }
 
-function updateBudgetStatus(allocated) {
-  const diff = allocated - TOTAL_BUDGET;
+// Status compares the resident's adjusted revenue total to their adjusted
+// expenditure total (not either side to its own fixed starting budget), so
+// offsetting changes on both sides — e.g. +$1M revenue and +$1M spending —
+// leave the status unchanged.
+function updateBudgetStatus() {
+  const expenditureAllocated = Object.values(state).reduce((sum, v) => sum + v, 0);
+  const revenueAllocated = Object.values(revenueState).reduce((sum, v) => sum + v, 0);
+  const diff = expenditureAllocated - revenueAllocated;
   const label = getBudgetStatusLabel(diff);
   budgetStatusEl.classList.remove('status-surplus', 'status-balanced', 'status-deficit');
   budgetStatusEl.classList.add(`status-${label.toLowerCase()}`);
   statusLabel.textContent = label;
 
   if (label === 'Balanced') {
-    statusDetail.textContent = 'Your allocation matches the starting county budget exactly.';
+    statusDetail.textContent = 'Your planned revenue matches your planned expenditures exactly.';
   } else if (label === 'Surplus') {
-    statusDetail.textContent = `${formatCurrency(Math.abs(diff))} under the starting county budget.`;
+    statusDetail.textContent = `${formatCurrency(Math.abs(diff))} more revenue than planned expenditures.`;
   } else {
-    statusDetail.textContent = `${formatCurrency(diff)} over the starting county budget.`;
+    statusDetail.textContent = `${formatCurrency(diff)} more planned expenditures than revenue.`;
   }
 }
 
@@ -648,7 +654,7 @@ function updateTotal() {
   const allocated = Object.values(state).reduce((sum, v) => sum + v, 0);
   allocatedValueEl.textContent = formatCurrency(allocated);
   updateComposition();
-  updateBudgetStatus(allocated);
+  updateBudgetStatus();
 }
 
 const revenueBudgetValueEl = document.getElementById('revenueBudgetValue');
@@ -658,6 +664,7 @@ revenueBudgetValueEl.textContent = formatCurrency(TOTAL_REVENUE_BUDGET);
 function updateRevenueTotal() {
   const allocated = Object.values(revenueState).reduce((sum, v) => sum + v, 0);
   revenueAllocatedValueEl.textContent = formatCurrency(allocated);
+  updateBudgetStatus();
 }
 
 const categoryGrid = document.getElementById('categoryGrid');
@@ -688,7 +695,7 @@ function buildAllocationLog(categoryList, stateObj, commentsObj) {
 submitBtn.addEventListener('click', async () => {
   const allocated = Object.values(state).reduce((sum, v) => sum + v, 0);
   const revenueAllocated = Object.values(revenueState).reduce((sum, v) => sum + v, 0);
-  const difference = allocated - TOTAL_BUDGET;
+  const difference = allocated - revenueAllocated;
   const status = getBudgetStatusLabel(difference);
 
   const submission = {
