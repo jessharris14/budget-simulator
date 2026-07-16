@@ -13,7 +13,7 @@
 
 <header class="site-header">
   <h1>Kent County Budget Priority Simulator</h1>
-  <p class="subtitle">Kent County plans to spend <strong>$247,210,510</strong> from the General Fund this year. Expand each category to set priorities down to the line-item level, and see how the budget balances.</p>
+  <p class="subtitle">Kent County actually spent <strong>$241,139,980</strong> from the General Fund in FY2025 (including money set aside in reserves), matched exactly by that year's General Fund revenue. Expand each category to set priorities down to the line-item level, and see how the budget balances.</p>
 </header>
 
 <div class="total-bar" id="totalBar">
@@ -23,7 +23,7 @@
       <span class="total-value" id="allocatedValue">$0</span>
     </div>
     <div class="total-stat">
-      <span class="total-label">County Budget</span>
+      <span class="total-label">FY2025 Actual Spending</span>
       <span class="total-value" id="budgetValue">$0</span>
     </div>
   </div>
@@ -47,7 +47,7 @@
 <section class="budget-section">
   <div class="section-heading">
     <h2>Expenditures</h2>
-    <p class="section-subtext">Expand each category to set your priorities down to the line-item level. Debt Service and Transfers Out are legally committed and can't be adjusted.</p>
+    <p class="section-subtext">Expand each category to set your priorities down to the line-item level. Debt Service, Transfers Out, and Addition to Reserves are fixed and can't be adjusted.</p>
   </div>
   <div class="category-grid" id="categoryGrid"></div>
 </section>
@@ -57,8 +57,14 @@
 <section class="budget-section">
   <div class="section-heading">
     <h2>Revenue</h2>
-    <p class="section-subtext">Kent County expects <strong id="revenueBudgetValue">$0</strong> in General Fund revenue this year from the sources below — your adjusted total: <strong id="revenueAllocatedValue">$0</strong>. This covers the county's largest revenue sources; it excludes special assessments, contributions from local units, and transfers in from other funds.</p>
+    <p class="section-subtext">Kent County actually brought in <strong id="revenueBudgetValue">$0</strong> in General Fund revenue in FY2025 — your adjusted total: <strong id="revenueAllocatedValue">$0</strong>. Federal Grants, State Grants, Interest and Rents, and Other Revenue are fixed and can't be adjusted; the rest is yours to explore.</p>
   </div>
+
+  <div class="composition-chart composition-chart-standalone">
+    <div class="composition-bar" id="revenueCompositionBar" role="img" aria-label="Live breakdown of your adjustable revenue across categories"></div>
+    <div class="composition-legend" id="revenueCompositionLegend"></div>
+  </div>
+
   <div class="category-grid" id="revenueGrid"></div>
 </section>
 
@@ -70,7 +76,7 @@
 </div>
 
 <footer class="site-footer">
-  <p>Source: Michigan Department of Treasury Form F65 (3965), Kent County, FY Ending 2025. Amounts reflect the General Fund Final Amended Budget.</p>
+  <p>Source: Michigan Department of Treasury Form F65 (3965), Kent County, FY Ending 2025. Amounts reflect the General Fund (actual) column.</p>
 </footer>
 
 <script src="script.js"></script>
