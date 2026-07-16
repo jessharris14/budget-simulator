@@ -42,7 +42,27 @@
   </div>
 </div>
 
-<main class="category-grid" id="categoryGrid"></main>
+<main>
+
+<section class="budget-section">
+  <div class="section-heading">
+    <h2>Expenditures</h2>
+    <p class="section-subtext">Expand each category to set your priorities down to the line-item level. Debt Service and Transfers Out are legally committed and can't be adjusted.</p>
+  </div>
+  <div class="category-grid" id="categoryGrid"></div>
+</section>
+
+<div class="section-divider"></div>
+
+<section class="budget-section">
+  <div class="section-heading">
+    <h2>Revenue</h2>
+    <p class="section-subtext">Kent County expects <strong id="revenueBudgetValue">$0</strong> in General Fund revenue this year from the sources below — your adjusted total: <strong id="revenueAllocatedValue">$0</strong>. This covers the county's largest revenue sources; it excludes special assessments, contributions from local units, and transfers in from other funds.</p>
+  </div>
+  <div class="category-grid" id="revenueGrid"></div>
+</section>
+
+</main>
 
 <div class="submit-row">
   <button id="submitBtn" class="submit-btn">Submit Your Budget</button>

@@ -226,9 +226,47 @@ h1, h2, h3 {
   color: var(--status-deficit);
 }
 
+.budget-section {
+  padding-top: 2rem;
+}
+
+.section-heading {
+  max-width: 960px;
+  margin: 0 auto 1.25rem;
+  padding: 0 1.5rem;
+}
+
+.section-heading h2 {
+  font-family: 'Montserrat', sans-serif;
+  color: var(--river-blue);
+  font-size: 1.5rem;
+  font-weight: 800;
+  margin: 0 0 0.4rem;
+}
+
+.section-subtext {
+  font-size: 0.95rem;
+  color: #4b5057;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.section-divider {
+  max-width: 960px;
+  margin: 1rem auto 0;
+  padding: 0 1.5rem;
+}
+
+.section-divider::after {
+  content: '';
+  display: block;
+  height: 1px;
+  background: var(--neutral-gray);
+}
+
 .category-grid {
   max-width: 960px;
-  margin: 2rem auto;
+  margin: 0 auto 2rem;
   padding: 0 1.5rem;
   display: grid;
   grid-template-columns: 1fr;
@@ -385,6 +423,65 @@ h1, h2, h3 {
   font-style: italic;
   color: #6b7280;
   line-height: 1.4;
+}
+
+.locked-row {
+  background: #eef1f4;
+}
+
+.locked-badge {
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--white);
+  background: var(--river-blue);
+  border-radius: 999px;
+  padding: 0.15rem 0.5rem;
+  white-space: nowrap;
+}
+
+.locked-amount {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--body-black);
+}
+
+.lock-note {
+  margin: 0 0 0.75rem;
+  font-size: 0.8rem;
+  color: var(--river-blue);
+  background: rgba(29, 66, 137, 0.07);
+  border-left: 3px solid var(--river-blue);
+  padding: 0.5rem 0.7rem;
+  border-radius: 0 6px 6px 0;
+  line-height: 1.4;
+}
+
+.comment-label {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #6b7280;
+  margin-top: 0.7rem;
+  margin-bottom: 0.3rem;
+}
+
+.subcategory-comment {
+  width: 100%;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.85rem;
+  color: var(--body-black);
+  border: 1px solid var(--neutral-gray);
+  border-radius: 6px;
+  padding: 0.45rem 0.6rem;
+  background: var(--white);
+}
+
+.subcategory-comment:focus {
+  outline: 2px solid var(--sky-blue);
+  outline-offset: 1px;
 }
 
 .info-wrap {
