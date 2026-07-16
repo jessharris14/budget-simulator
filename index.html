@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kent County Budget Priority Simulator</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="site-header">
+  <h1>Kent County Budget Priority Simulator</h1>
+  <p class="subtitle">Kent County plans to spend <strong>$247,210,510</strong> from the General Fund this year. Move the sliders to set your own priorities and see how the budget balances.</p>
+</header>
+
+<div class="total-bar" id="totalBar">
+  <div class="total-bar-inner">
+    <div class="total-stat">
+      <span class="total-label">Your Allocation</span>
+      <span class="total-value" id="allocatedValue">$0</span>
+    </div>
+    <div class="total-stat">
+      <span class="total-label">County Budget</span>
+      <span class="total-value" id="budgetValue">$0</span>
+    </div>
+    <div class="total-stat status-stat">
+      <span class="total-label">Status</span>
+      <span class="total-value" id="statusValue">Balanced</span>
+    </div>
+  </div>
+  <div class="progress-track">
+    <div class="progress-fill" id="progressFill"></div>
+  </div>
+</div>
+
+<main class="category-grid" id="categoryGrid"></main>
+
+<div class="submit-row">
+  <button id="submitBtn" class="submit-btn">Submit Your Budget</button>
+  <p class="submit-note" id="submitNote"></p>
+</div>
+
+<footer class="site-footer">
+  <p>Source: Michigan Department of Treasury Form F65 (3965), Kent County, FY Ending 2025. Amounts reflect the General Fund Final Amended Budget.</p>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
