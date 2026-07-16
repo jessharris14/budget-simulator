@@ -3,67 +3,177 @@ const CATEGORIES = [
     id: 'general-government',
     name: 'General Government',
     desc: 'County board, executive, clerk, treasurer, assessing, elections, buildings and grounds.',
-    amount: 46567346
+    subcategories: [
+      { name: 'Legislative (Council, Board, Commission)', amount: 1415542,
+        desc: "Funds the Kent County Board of Commissioners, including commissioner compensation, meetings, and legislative support staff." },
+      { name: 'Chief Executive', amount: 4351846,
+        desc: "Funds the County Administrator/Controller's office, which runs day-to-day county operations under the Board's direction." },
+      { name: 'Treasurer', amount: 1503388,
+        desc: "Funds the County Treasurer's office, which collects property taxes and manages county investments and cash." },
+      { name: 'Clerk', amount: 3381946,
+        desc: "Funds the County Clerk's office, which maintains vital records, court records, and the county archive." },
+      { name: 'Assessing Equalization', amount: 1869048,
+        desc: "Funds property assessment and equalization work that sets taxable property values across the county." },
+      { name: 'Finance and Tax Administration', amount: 2691879,
+        desc: "Funds general financial management and tax administration functions not tied to a single county office.",
+        ambiguous: true },
+      { name: 'Elections', amount: 1239620,
+        desc: "Funds the administration of county and local elections, including staffing, equipment, and ballot processing." },
+      { name: 'Building and Grounds', amount: 15483031,
+        desc: "Funds maintenance, utilities, and upkeep of county-owned buildings and grounds." },
+      { name: 'Attorney/Corporation Counsel', amount: 390000,
+        desc: "Funds legal counsel services provided to county government." },
+      { name: 'All Other General Government', amount: 14241046,
+        desc: "A catch-all line covering general administrative functions not itemized elsewhere in the form, such as HR, IT, or purchasing.",
+        ambiguous: true }
+    ]
   },
   {
     id: 'judicial',
     name: 'Judicial',
-    desc: 'Circuit, district, and probate courts, friend of the court, and the prosecuting attorney.',
-    amount: 30569884
+    desc: 'Circuit, district, and probate courts, court libraries, probation, and the prosecuting attorney.',
+    subcategories: [
+      { name: 'Circuit Court', amount: 17669316,
+        desc: "Funds Kent County's Circuit Court, which hears felony criminal cases, civil cases, and family law matters." },
+      { name: 'District/Municipal Court', amount: 3773439,
+        desc: "Funds the District Court, which handles misdemeanors, traffic violations, and smaller civil claims." },
+      { name: 'Law Library', amount: 22000,
+        desc: "Funds the county law library, which provides legal research materials for courts, attorneys, and the public." },
+      { name: 'Probate Court', amount: 2802393,
+        desc: "Funds the Probate Court, which handles wills, estates, guardianships, and mental health commitments." },
+      { name: 'Probation', amount: 35334,
+        desc: "Funds probation services that supervise people sentenced to community supervision instead of jail." },
+      { name: 'Prosecuting Attorney', amount: 6267402,
+        desc: "Funds the Prosecuting Attorney's office, which prosecutes criminal cases on behalf of the county." }
+    ]
   },
   {
     id: 'public-safety',
     name: 'Public Safety',
     desc: 'Sheriff, corrections and jail, 911 dispatch, and other public safety operations.',
-    amount: 93659999
+    subcategories: [
+      { name: 'Police/Sheriff/Constable', amount: 31676271,
+        desc: "Funds the Kent County Sheriff's Office, including patrol, investigations, and general law enforcement." },
+      { name: 'Fire', amount: 0,
+        desc: "The form lists a Fire line item, but Kent County budgets $0 to it from the General Fund — fire protection appears to be funded through other county funds.",
+        ambiguous: true },
+      { name: 'Combined Public Safety Department', amount: 0,
+        desc: "A line item for a merged police/fire department model; Kent County reports $0 here, suggesting it doesn't use this structure.",
+        ambiguous: true },
+      { name: 'Emergency 911 Dispatch Activities', amount: 6858891,
+        desc: "Funds county emergency dispatch, which routes 911 calls to police, fire, and EMS providers." },
+      { name: 'Corrections/Jail', amount: 52110177,
+        desc: "Funds operation of the Kent County Correctional Facility, including staffing and inmate services." },
+      { name: 'All Other Public Safety Activities', amount: 3014660,
+        desc: "A catch-all line covering public safety functions not itemized elsewhere, such as animal control or emergency management.",
+        ambiguous: true }
+    ]
   },
   {
     id: 'public-works',
     name: 'Public Works',
     desc: 'County road, sanitation, and other public works activities funded through the General Fund.',
-    amount: 1366787
+    subcategories: [
+      { name: 'All Other Public Works', amount: 1366787,
+        desc: "The only Public Works line funded through the General Fund; roads, sanitation, and airports are funded through other county funds and aren't broken out here.",
+        ambiguous: true }
+    ]
   },
   {
     id: 'health-welfare',
     name: 'Health and Welfare',
-    desc: 'Substance abuse services, the medical examiner, mental health, veterans programs, and related services.',
-    amount: 8941308
+    desc: 'Substance abuse services, the medical examiner, mental health, and other health and welfare programs.',
+    subcategories: [
+      { name: 'Alcoholism and Substance Abuse', amount: 2900000,
+        desc: "Funds county substance abuse prevention, treatment, and recovery programs." },
+      { name: 'Medical Examiner', amount: 2042188,
+        desc: "Funds the County Medical Examiner's office, which investigates deaths requiring an official cause determination." },
+      { name: 'Mental Health', amount: 2025942,
+        desc: "Funds county-level mental health services and programs." },
+      { name: 'Human Services & Medical Care Facility', amount: 492068,
+        desc: "Funds county human services programs and any county-operated medical care facility." },
+      { name: 'Area Agency on Aging', amount: 16110,
+        desc: "Funds services supporting older adults in Kent County, such as meal programs and senior services coordination." },
+      { name: 'All Other Health & Welfare', amount: 1465000,
+        desc: "A catch-all line covering health and welfare functions not itemized elsewhere in the form.",
+        ambiguous: true }
+    ]
   },
   {
     id: 'community-economic-development',
     name: 'Community and Economic Development',
     desc: 'Economic development, register of deeds, and community development programs.',
-    amount: 1546551
+    subcategories: [
+      { name: 'Economic Development', amount: 300000,
+        desc: "Funds county programs that support business growth, job creation, and economic development initiatives." },
+      { name: 'Register of Deeds', amount: 715016,
+        desc: "Funds the Register of Deeds office, which records and maintains property deeds and land records." },
+      { name: 'All Other Community Development', amount: 531535,
+        desc: "A catch-all line covering community development functions not itemized elsewhere in the form.",
+        ambiguous: true }
+    ]
   },
   {
     id: 'recreation-culture',
     name: 'Recreation and Culture',
     desc: 'County parks and recreation programming.',
-    amount: 7731623
+    subcategories: [
+      { name: 'Parks and Recreation', amount: 7649357,
+        desc: "Funds county parks, trails, and recreational facilities and programming." },
+      { name: 'All Other Recreation and Culture', amount: 82266,
+        desc: "A catch-all line covering recreation and culture functions not itemized elsewhere in the form.",
+        ambiguous: true }
+    ]
   },
   {
     id: 'other',
     name: 'Other (Capital Outlay & Debt Service)',
     desc: 'Capital projects and debt service payments funded through the General Fund.',
-    amount: 1627579
+    subcategories: [
+      { name: 'Debt Service', amount: 1627579,
+        desc: "Funds principal and interest payments on county debt supported by the General Fund.",
+        ambiguous: true }
+    ]
   },
   {
     id: 'other-financing-uses',
     name: 'Transfers to Other Funds',
     desc: 'Transfers from the General Fund to other county funds and component units.',
-    amount: 55199433
+    subcategories: [
+      { name: 'Transfers (Out)', amount: 55199433,
+        desc: "Funds transfers from the General Fund to other county funds, such as special revenue or capital project funds, to support their operations." }
+    ]
   }
 ];
 
-const TOTAL_BUDGET = CATEGORIES.reduce((sum, c) => sum + c.amount, 0);
+function slugify(str) {
+  return str
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+}
+
+CATEGORIES.forEach(category => {
+  category.subcategories.forEach(sub => {
+    sub.id = slugify(sub.name);
+    sub.key = `${category.id}__${sub.id}`;
+  });
+});
+
+const TOTAL_BUDGET = CATEGORIES.reduce(
+  (sum, c) => sum + c.subcategories.reduce((s, sub) => s + sub.amount, 0),
+  0
+);
 
 function niceStep(amount) {
   if (amount >= 10000000) return 500000;
   if (amount >= 1000000) return 50000;
-  return 5000;
+  if (amount >= 100000) return 5000;
+  return 1000;
 }
 
 function niceMax(amount, step) {
+  if (amount === 0) return 250000;
   const target = amount * 2.5;
   return Math.ceil(target / step) * step;
 }
@@ -81,42 +191,140 @@ const state = {};
 const grid = document.getElementById('categoryGrid');
 
 CATEGORIES.forEach(category => {
-  const step = niceStep(category.amount);
-  const max = niceMax(category.amount, step);
-  state[category.id] = category.amount;
+  category.subcategories.forEach(sub => {
+    state[sub.key] = sub.amount;
+  });
 
   const card = document.createElement('div');
   card.className = 'category-card';
+
+  const singleLineNote = category.subcategories.length === 1
+    ? `<p class="single-line-note">This category isn't broken down further within the General Fund budget — the full amount is reported under "${category.subcategories[0].name}."</p>`
+    : '';
+
+  const subRowsHtml = category.subcategories.map(sub => {
+    const step = niceStep(sub.amount);
+    const max = niceMax(sub.amount, step);
+    const reviewBadge = sub.ambiguous
+      ? '<span class="review-badge">Review wording</span>'
+      : '';
+    return `
+      <div class="subcategory-row" data-key="${sub.key}">
+        <div class="subcategory-top">
+          <span class="subcategory-name-wrap">
+            <span class="subcategory-name">${sub.name}</span>
+            <span class="info-wrap">
+              <button type="button" class="info-btn" aria-label="What does ${sub.name} cover?">i</button>
+              <span class="info-tooltip" role="tooltip">${sub.desc}</span>
+            </span>
+            ${reviewBadge}
+          </span>
+          <div class="subcategory-controls">
+            <input type="number" class="subcategory-number" min="0" step="1" value="${sub.amount}" aria-label="${sub.name} amount">
+            <button type="button" class="reset-btn">Reset</button>
+          </div>
+        </div>
+        <input
+          type="range"
+          class="subcategory-slider"
+          min="0"
+          max="${max}"
+          step="${step}"
+          value="${sub.amount}"
+        >
+        <div class="range-labels">
+          <span>$0</span>
+          <span class="max-label">${formatCurrency(max)}</span>
+        </div>
+      </div>
+    `;
+  }).join('');
+
   card.innerHTML = `
-    <div class="category-header">
+    <button type="button" class="category-toggle" aria-expanded="false">
       <span class="category-name">${category.name}</span>
-      <span class="category-amount" id="amount-${category.id}">${formatCurrency(category.amount)}</span>
-    </div>
+      <span class="category-amount" id="amount-${category.id}">${formatCurrency(sumCategory(category))}</span>
+      <span class="chevron">&#9662;</span>
+    </button>
     <p class="category-desc">${category.desc}</p>
-    <input
-      type="range"
-      id="slider-${category.id}"
-      min="0"
-      max="${max}"
-      step="${step}"
-      value="${category.amount}"
-    >
-    <div class="range-labels">
-      <span>$0</span>
-      <span>${formatCurrency(max)}</span>
+    <div class="subcategory-list">
+      <div class="subcategory-list-inner">
+        ${subRowsHtml}
+        ${singleLineNote}
+      </div>
     </div>
   `;
   grid.appendChild(card);
 
-  const slider = card.querySelector(`#slider-${category.id}`);
-  const amountLabel = card.querySelector(`#amount-${category.id}`);
+  function sumCategory(cat) {
+    return cat.subcategories.reduce((sum, sub) => sum + state[sub.key], 0);
+  }
 
-  slider.addEventListener('input', () => {
-    const value = Number(slider.value);
-    state[category.id] = value;
-    amountLabel.textContent = formatCurrency(value);
-    updateTotal();
+  const categoryAmountEl = card.querySelector(`#amount-${category.id}`);
+  const toggleBtn = card.querySelector('.category-toggle');
+  const subList = card.querySelector('.subcategory-list');
+  const subListInner = card.querySelector('.subcategory-list-inner');
+
+  toggleBtn.addEventListener('click', () => {
+    const expanded = toggleBtn.getAttribute('aria-expanded') === 'true';
+    toggleBtn.setAttribute('aria-expanded', String(!expanded));
+    card.classList.toggle('expanded', !expanded);
+    subList.style.maxHeight = expanded ? '0px' : `${subListInner.scrollHeight}px`;
   });
+
+  category.subcategories.forEach(sub => {
+    const row = card.querySelector(`.subcategory-row[data-key="${sub.key}"]`);
+    const slider = row.querySelector('.subcategory-slider');
+    const number = row.querySelector('.subcategory-number');
+    const maxLabel = row.querySelector('.max-label');
+    const resetBtn = row.querySelector('.reset-btn');
+    const infoBtn = row.querySelector('.info-btn');
+    const infoTooltip = row.querySelector('.info-tooltip');
+
+    function applyValue(rawValue) {
+      let value = Math.max(0, Math.round(Number(rawValue) || 0));
+      if (value > Number(slider.max)) {
+        slider.max = value;
+        maxLabel.textContent = formatCurrency(value);
+      }
+      state[sub.key] = value;
+      slider.value = value;
+      number.value = value;
+      categoryAmountEl.textContent = formatCurrency(sumCategory(category));
+      if (subList.style.maxHeight && subList.style.maxHeight !== '0px') {
+        subList.style.maxHeight = `${subListInner.scrollHeight}px`;
+      }
+      updateTotal();
+    }
+
+    slider.addEventListener('input', () => applyValue(slider.value));
+
+    number.addEventListener('input', () => {
+      if (number.value === '') return;
+      applyValue(number.value);
+    });
+
+    number.addEventListener('blur', () => {
+      if (number.value === '' || isNaN(Number(number.value))) {
+        applyValue(sub.amount);
+      }
+    });
+
+    resetBtn.addEventListener('click', () => applyValue(sub.amount));
+
+    infoBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const isVisible = infoTooltip.classList.contains('visible');
+      document.querySelectorAll('.info-tooltip.visible').forEach(t => t.classList.remove('visible'));
+      if (!isVisible) infoTooltip.classList.add('visible');
+    });
+  });
+});
+
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('.info-wrap')) {
+    document.querySelectorAll('.info-tooltip.visible').forEach(t => t.classList.remove('visible'));
+  }
 });
 
 const totalBar = document.getElementById('totalBar');
@@ -155,9 +363,13 @@ const submitNote = document.getElementById('submitNote');
 submitBtn.addEventListener('click', () => {
   const allocated = Object.values(state).reduce((sum, v) => sum + v, 0);
   const result = {
-    allocations: CATEGORIES.map(c => ({
-      category: c.name,
-      amount: state[c.id]
+    allocations: CATEGORIES.map(category => ({
+      category: category.name,
+      total: category.subcategories.reduce((sum, sub) => sum + state[sub.key], 0),
+      subcategories: category.subcategories.map(sub => ({
+        name: sub.name,
+        amount: state[sub.key]
+      }))
     })),
     totalAllocated: allocated,
     totalBudget: TOTAL_BUDGET,

@@ -120,11 +120,11 @@ h1, h2, h3 {
 }
 
 .category-grid {
-  max-width: 960px;
+  max-width: 720px;
   margin: 2rem auto;
   padding: 0 1.5rem;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: 1fr;
   gap: 1.25rem;
 }
 
@@ -134,12 +134,19 @@ h1, h2, h3 {
   padding: 1.25rem 1.4rem 1.5rem;
 }
 
-.category-header {
+.category-toggle {
   display: flex;
   justify-content: space-between;
-  align-items: baseline;
-  gap: 0.5rem;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
   margin-bottom: 0.15rem;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  text-align: left;
+  font-family: inherit;
 }
 
 .category-name {
@@ -155,6 +162,18 @@ h1, h2, h3 {
   font-size: 1.05rem;
   color: var(--body-black);
   white-space: nowrap;
+  margin-left: auto;
+}
+
+.chevron {
+  color: var(--river-blue);
+  font-size: 0.9rem;
+  transition: transform 0.2s ease;
+  flex-shrink: 0;
+}
+
+.category-toggle[aria-expanded="true"] .chevron {
+  transform: rotate(180deg);
 }
 
 .category-desc {
@@ -164,11 +183,168 @@ h1, h2, h3 {
   line-height: 1.4;
 }
 
+.subcategory-list {
+  max-height: 0px;
+  overflow: hidden;
+  transition: max-height 0.25s ease;
+}
+
+.subcategory-list-inner {
+  padding-top: 0.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+
+.subcategory-row {
+  background: var(--white);
+  border-radius: 10px;
+  padding: 0.9rem 1rem 1rem;
+}
+
+.subcategory-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.6rem;
+}
+
+.subcategory-name-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.subcategory-name {
+  font-weight: 600;
+  font-size: 0.92rem;
+  color: var(--body-black);
+}
+
+.subcategory-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.subcategory-number {
+  width: 118px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: var(--body-black);
+  border: 1px solid var(--neutral-gray);
+  border-radius: 6px;
+  padding: 0.35rem 0.5rem;
+  background: var(--white);
+}
+
+.subcategory-number:focus {
+  outline: 2px solid var(--sky-blue);
+  outline-offset: 1px;
+}
+
+.reset-btn {
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 0.75rem;
+  color: var(--river-blue);
+  background: var(--neutral-gray);
+  border: none;
+  border-radius: 6px;
+  padding: 0.4rem 0.6rem;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.reset-btn:hover {
+  background: var(--sky-blue);
+  color: var(--white);
+}
+
+.single-line-note {
+  margin: 0;
+  font-size: 0.78rem;
+  font-style: italic;
+  color: #6b7280;
+  line-height: 1.4;
+}
+
+.info-wrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.info-btn {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 1px solid var(--sky-blue);
+  background: var(--white);
+  color: var(--sky-blue);
+  font-size: 0.68rem;
+  font-style: italic;
+  font-family: Georgia, serif;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0;
+}
+
+.info-btn:hover,
+.info-btn:focus {
+  background: var(--sky-blue);
+  color: var(--white);
+  outline: none;
+}
+
+.info-tooltip {
+  display: none;
+  position: absolute;
+  z-index: 20;
+  top: 130%;
+  left: 0;
+  width: 240px;
+  background: var(--white);
+  color: var(--body-black);
+  border: 1px solid var(--river-blue);
+  border-radius: 8px;
+  padding: 0.6rem 0.7rem;
+  font-size: 0.78rem;
+  font-weight: 400;
+  line-height: 1.4;
+  box-shadow: 0 4px 14px rgba(29, 66, 137, 0.18);
+}
+
+.info-wrap:hover .info-tooltip,
+.info-tooltip.visible {
+  display: block;
+}
+
+.review-badge {
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--river-blue);
+  background: var(--neutral-gray);
+  border: 1px solid var(--sky-blue);
+  border-radius: 999px;
+  padding: 0.15rem 0.5rem;
+  white-space: nowrap;
+}
+
 input[type="range"] {
   width: 100%;
   height: 6px;
   border-radius: 999px;
-  background: var(--white);
+  background: var(--neutral-gray);
   appearance: none;
   -webkit-appearance: none;
   outline: none;
