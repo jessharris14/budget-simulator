@@ -132,7 +132,9 @@ const CATEGORIES = [
     subcategories: [
       { name: 'Debt Service', amount: 1627579,
         desc: "Funds principal and interest payments on county debt supported by the General Fund.",
-        ambiguous: true }
+        ambiguous: true,
+        locked: true,
+        lockNote: "This is legally committed debt repayment — Kent County is contractually obligated to pay it and it can't be adjusted by residents." }
     ]
   },
   {
@@ -141,7 +143,116 @@ const CATEGORIES = [
     desc: 'Transfers from the General Fund to other county funds and component units.',
     subcategories: [
       { name: 'Transfers (Out)', amount: 55199433,
-        desc: "Funds transfers from the General Fund to other county funds, such as special revenue or capital project funds, to support their operations." }
+        desc: "Funds transfers from the General Fund to other county funds, such as special revenue or capital project funds, to support their operations.",
+        locked: true,
+        lockNote: "These transfers are legally committed to other county funds and can't be adjusted by residents." }
+    ]
+  }
+];
+
+const REVENUE_CATEGORIES = [
+  {
+    id: 'tax-revenue',
+    name: 'Tax Revenue',
+    desc: 'Property taxes and other tax collections that fund the General Fund.',
+    subcategories: [
+      { name: 'Payment in-Lieu-of Taxes (PILOT)', amount: 272000,
+        desc: "Payments made by tax-exempt property owners, such as certain nonprofits or housing authorities, in place of regular property taxes." },
+      { name: 'Trailer Taxes (Act 243 of 1959)', amount: 55000,
+        desc: "A state-authorized specific tax collected on mobile homes instead of standard property tax." },
+      { name: 'Industrial Facilities Tax (Act 198 of 1974)', amount: 775000,
+        desc: "A reduced-rate property tax paid by industrial facilities granted state tax abatements to encourage investment." },
+      { name: 'Property Tax', amount: 137890810,
+        desc: "The county's general property tax levy, including delinquent payments, penalties, interest, and community-wide special assessments." }
+    ]
+  },
+  {
+    id: 'licenses-permits',
+    name: 'Licenses and Permits',
+    desc: 'Fees collected for business and non-business licenses and permits.',
+    subcategories: [
+      { name: 'Business Licenses and Permits', amount: 3900,
+        desc: "Fees collected for business-related licenses and permits issued by the county." },
+      { name: 'Non-Business Licenses and Permits', amount: 304000,
+        desc: "Fees collected for other licenses and permits issued to residents, such as certain personal or property-related permits." }
+    ]
+  },
+  {
+    id: 'fines-forfeits',
+    name: 'Fines and Forfeits',
+    desc: 'Revenue from court fines and forfeited bonds or property.',
+    subcategories: [
+      { name: 'All Fines, Penalties & Forfeits', amount: 1349010,
+        desc: "Revenue from court fines, civil infraction penalties, and forfeited bonds or property." }
+    ]
+  },
+  {
+    id: 'federal-grants',
+    name: 'Federal Grants',
+    desc: 'Federal grant funding received by the county.',
+    subcategories: [
+      { name: 'Federal Grant Revenue (General Fund)', amount: 0,
+        desc: "Kent County receives federal grants for public safety, health, welfare, and other programs, but records that funding in other county funds — the General Fund budgets $0 here for FY2025.",
+        ambiguous: true }
+    ]
+  },
+  {
+    id: 'state-grants',
+    name: 'State Grants',
+    desc: 'State revenue sharing and other state grant funding.',
+    subcategories: [
+      { name: 'State Revenue Sharing', amount: 15299452,
+        desc: "Funding the state distributes to counties from state sales and other tax revenue, for general county use." },
+      { name: 'Public Safety', amount: 2704000,
+        desc: "State grant funding supporting county public safety programs." },
+      { name: 'Other General/All Other State Aid Grants', amount: 11091000,
+        desc: "A catch-all line covering other state grant funding not itemized elsewhere in the form.",
+        ambiguous: true }
+    ]
+  },
+  {
+    id: 'charges-for-services',
+    name: 'Charges for Services',
+    desc: 'Fees the county charges for services it provides to residents and businesses.',
+    subcategories: [
+      { name: 'All Other Services Rendered Charges', amount: 16610673,
+        desc: "Fees charged for county services, such as recording documents, inspections, or administrative processing.",
+        ambiguous: true },
+      { name: 'All Other Sales, Use, & Admission Fees', amount: 4024410,
+        desc: "Fees from admissions, sales, and use charges for county facilities and programs, such as parks or recreation sites.",
+        ambiguous: true },
+      { name: 'All Other Fees', amount: 9670000,
+        desc: "A catch-all line covering other service fees not itemized elsewhere in the form.",
+        ambiguous: true }
+    ]
+  },
+  {
+    id: 'interest-rents',
+    name: 'Interest and Rents',
+    desc: 'Investment income and rental income from county-owned property.',
+    subcategories: [
+      { name: 'Interest & Dividends', amount: 5000000,
+        desc: "Investment income earned on the county's cash and investment balances." },
+      { name: 'Rents & Royalties', amount: 3081200,
+        desc: "Income from leasing or renting county-owned property and facilities." }
+    ]
+  },
+  {
+    id: 'other-revenue',
+    name: 'Other Revenue',
+    desc: 'Reimbursements, asset sales, contributions, and other miscellaneous revenue.',
+    subcategories: [
+      { name: 'Reimbursements', amount: 3154714,
+        desc: "Payments received from other governments, agencies, or parties reimbursing the county for shared costs or services." },
+      { name: 'Sale of Capital Assets', amount: 170000,
+        desc: "Proceeds from selling county-owned equipment, vehicles, land, or other capital assets." },
+      { name: 'Public and Private Contributions', amount: 3034090,
+        desc: "Donations and contributions from individuals, organizations, or businesses to support county programs." },
+      { name: 'Refunds & Rebates', amount: 50,
+        desc: "Refunds and rebates received back from vendors, insurers, or other payments the county previously made." },
+      { name: 'Miscellaneous/Other Revenue', amount: 85720,
+        desc: "A catch-all line covering revenue not itemized elsewhere in the form.",
+        ambiguous: true }
     ]
   }
 ];
@@ -153,14 +264,21 @@ function slugify(str) {
     .replace(/^-+|-+$/g, '');
 }
 
-CATEGORIES.forEach(category => {
-  category.subcategories.forEach(sub => {
-    sub.id = slugify(sub.name);
-    sub.key = `${category.id}__${sub.id}`;
+[CATEGORIES, REVENUE_CATEGORIES].forEach(list => {
+  list.forEach(category => {
+    category.subcategories.forEach(sub => {
+      sub.id = slugify(sub.name);
+      sub.key = `${category.id}__${sub.id}`;
+    });
   });
 });
 
 const TOTAL_BUDGET = CATEGORIES.reduce(
+  (sum, c) => sum + c.subcategories.reduce((s, sub) => s + sub.amount, 0),
+  0
+);
+
+const TOTAL_REVENUE_BUDGET = REVENUE_CATEGORIES.reduce(
   (sum, c) => sum + c.subcategories.reduce((s, sub) => s + sub.amount, 0),
   0
 );
@@ -187,139 +305,178 @@ function formatCurrency(value) {
 }
 
 const state = {};
+const comments = {};
+const revenueState = {};
+const revenueComments = {};
 
-const grid = document.getElementById('categoryGrid');
+function renderSection(categoryList, gridEl, stateObj, commentsObj, onChange) {
+  categoryList.forEach(category => {
+    category.subcategories.forEach(sub => {
+      stateObj[sub.key] = sub.amount;
+      commentsObj[sub.key] = '';
+    });
 
-CATEGORIES.forEach(category => {
-  category.subcategories.forEach(sub => {
-    state[sub.key] = sub.amount;
-  });
+    const card = document.createElement('div');
+    card.className = 'category-card';
 
-  const card = document.createElement('div');
-  card.className = 'category-card';
+    function sumCategory(cat) {
+      return cat.subcategories.reduce((sum, sub) => sum + stateObj[sub.key], 0);
+    }
 
-  const singleLineNote = category.subcategories.length === 1
-    ? `<p class="single-line-note">This category isn't broken down further within the General Fund budget — the full amount is reported under "${category.subcategories[0].name}."</p>`
-    : '';
-
-  const subRowsHtml = category.subcategories.map(sub => {
-    const step = niceStep(sub.amount);
-    const max = niceMax(sub.amount, step);
-    const reviewBadge = sub.ambiguous
-      ? '<span class="review-badge">Review wording</span>'
+    const singleLineNote = category.subcategories.length === 1
+      ? `<p class="single-line-note">This category isn't broken down further within the General Fund budget — the full amount is reported under "${category.subcategories[0].name}."</p>`
       : '';
-    return `
-      <div class="subcategory-row" data-key="${sub.key}">
-        <div class="subcategory-top">
-          <span class="subcategory-name-wrap">
-            <span class="subcategory-name">${sub.name}</span>
-            <span class="info-wrap">
-              <button type="button" class="info-btn" aria-label="What does ${sub.name} cover?">i</button>
-              <span class="info-tooltip" role="tooltip">${sub.desc}</span>
-            </span>
-            ${reviewBadge}
-          </span>
-          <div class="subcategory-controls">
-            <input type="number" class="subcategory-number" min="0" step="1" value="${sub.amount}" aria-label="${sub.name} amount">
-            <button type="button" class="reset-btn">Reset</button>
+
+    const subRowsHtml = category.subcategories.map(sub => {
+      const reviewBadge = sub.ambiguous ? '<span class="review-badge">Review wording</span>' : '';
+      const commentBlock = `
+        <label class="comment-label" for="comment-${sub.key}">Your reasoning (optional)</label>
+        <input type="text" id="comment-${sub.key}" class="subcategory-comment" placeholder="e.g., increased for new parks millage">
+      `;
+
+      if (sub.locked) {
+        return `
+          <div class="subcategory-row locked-row" data-key="${sub.key}">
+            <div class="subcategory-top">
+              <span class="subcategory-name-wrap">
+                <span class="subcategory-name">${sub.name}</span>
+                <span class="info-wrap">
+                  <button type="button" class="info-btn" aria-label="What does ${sub.name} cover?">i</button>
+                  <span class="info-tooltip" role="tooltip">${sub.desc}</span>
+                </span>
+                <span class="locked-badge">Locked</span>
+                ${reviewBadge}
+              </span>
+              <div class="subcategory-controls">
+                <span class="locked-amount">${formatCurrency(sub.amount)}</span>
+              </div>
+            </div>
+            <p class="lock-note">${sub.lockNote}</p>
+            ${commentBlock}
           </div>
+        `;
+      }
+
+      const step = niceStep(sub.amount);
+      const max = niceMax(sub.amount, step);
+      return `
+        <div class="subcategory-row" data-key="${sub.key}">
+          <div class="subcategory-top">
+            <span class="subcategory-name-wrap">
+              <span class="subcategory-name">${sub.name}</span>
+              <span class="info-wrap">
+                <button type="button" class="info-btn" aria-label="What does ${sub.name} cover?">i</button>
+                <span class="info-tooltip" role="tooltip">${sub.desc}</span>
+              </span>
+              ${reviewBadge}
+            </span>
+            <div class="subcategory-controls">
+              <input type="number" class="subcategory-number" min="0" step="1" value="${sub.amount}" aria-label="${sub.name} amount">
+              <button type="button" class="reset-btn">Reset</button>
+            </div>
+          </div>
+          <input
+            type="range"
+            class="subcategory-slider"
+            min="0"
+            max="${max}"
+            step="${step}"
+            value="${sub.amount}"
+          >
+          <div class="range-labels">
+            <span>$0</span>
+            <span class="max-label">${formatCurrency(max)}</span>
+          </div>
+          ${commentBlock}
         </div>
-        <input
-          type="range"
-          class="subcategory-slider"
-          min="0"
-          max="${max}"
-          step="${step}"
-          value="${sub.amount}"
-        >
-        <div class="range-labels">
-          <span>$0</span>
-          <span class="max-label">${formatCurrency(max)}</span>
+      `;
+    }).join('');
+
+    card.innerHTML = `
+      <button type="button" class="category-toggle" aria-expanded="false">
+        <span class="category-name">${category.name}</span>
+        <span class="category-amount" id="amount-${category.id}">${formatCurrency(sumCategory(category))}</span>
+        <span class="chevron">&#9662;</span>
+      </button>
+      <p class="category-desc">${category.desc}</p>
+      <div class="subcategory-list">
+        <div class="subcategory-list-inner">
+          ${subRowsHtml}
+          ${singleLineNote}
         </div>
       </div>
     `;
-  }).join('');
+    gridEl.appendChild(card);
 
-  card.innerHTML = `
-    <button type="button" class="category-toggle" aria-expanded="false">
-      <span class="category-name">${category.name}</span>
-      <span class="category-amount" id="amount-${category.id}">${formatCurrency(sumCategory(category))}</span>
-      <span class="chevron">&#9662;</span>
-    </button>
-    <p class="category-desc">${category.desc}</p>
-    <div class="subcategory-list">
-      <div class="subcategory-list-inner">
-        ${subRowsHtml}
-        ${singleLineNote}
-      </div>
-    </div>
-  `;
-  grid.appendChild(card);
+    const categoryAmountEl = card.querySelector(`#amount-${category.id}`);
+    const toggleBtn = card.querySelector('.category-toggle');
+    const subList = card.querySelector('.subcategory-list');
+    const subListInner = card.querySelector('.subcategory-list-inner');
 
-  function sumCategory(cat) {
-    return cat.subcategories.reduce((sum, sub) => sum + state[sub.key], 0);
-  }
-
-  const categoryAmountEl = card.querySelector(`#amount-${category.id}`);
-  const toggleBtn = card.querySelector('.category-toggle');
-  const subList = card.querySelector('.subcategory-list');
-  const subListInner = card.querySelector('.subcategory-list-inner');
-
-  toggleBtn.addEventListener('click', () => {
-    const expanded = toggleBtn.getAttribute('aria-expanded') === 'true';
-    toggleBtn.setAttribute('aria-expanded', String(!expanded));
-    card.classList.toggle('expanded', !expanded);
-    subList.style.maxHeight = expanded ? '0px' : `${subListInner.scrollHeight}px`;
-  });
-
-  category.subcategories.forEach(sub => {
-    const row = card.querySelector(`.subcategory-row[data-key="${sub.key}"]`);
-    const slider = row.querySelector('.subcategory-slider');
-    const number = row.querySelector('.subcategory-number');
-    const maxLabel = row.querySelector('.max-label');
-    const resetBtn = row.querySelector('.reset-btn');
-    const infoBtn = row.querySelector('.info-btn');
-    const infoTooltip = row.querySelector('.info-tooltip');
-
-    function applyValue(rawValue) {
-      let value = Math.max(0, Math.round(Number(rawValue) || 0));
-      if (value > Number(slider.max)) {
-        slider.max = value;
-        maxLabel.textContent = formatCurrency(value);
-      }
-      state[sub.key] = value;
-      slider.value = value;
-      number.value = value;
-      categoryAmountEl.textContent = formatCurrency(sumCategory(category));
-      if (subList.style.maxHeight && subList.style.maxHeight !== '0px') {
-        subList.style.maxHeight = `${subListInner.scrollHeight}px`;
-      }
-      updateTotal();
-    }
-
-    slider.addEventListener('input', () => applyValue(slider.value));
-
-    number.addEventListener('input', () => {
-      if (number.value === '') return;
-      applyValue(number.value);
+    toggleBtn.addEventListener('click', () => {
+      const expanded = toggleBtn.getAttribute('aria-expanded') === 'true';
+      toggleBtn.setAttribute('aria-expanded', String(!expanded));
+      card.classList.toggle('expanded', !expanded);
+      subList.style.maxHeight = expanded ? '0px' : `${subListInner.scrollHeight}px`;
     });
 
-    number.addEventListener('blur', () => {
-      if (number.value === '' || isNaN(Number(number.value))) {
-        applyValue(sub.amount);
+    category.subcategories.forEach(sub => {
+      const row = card.querySelector(`.subcategory-row[data-key="${sub.key}"]`);
+      const infoBtn = row.querySelector('.info-btn');
+      const infoTooltip = row.querySelector('.info-tooltip');
+
+      infoBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const isVisible = infoTooltip.classList.contains('visible');
+        document.querySelectorAll('.info-tooltip.visible').forEach(t => t.classList.remove('visible'));
+        if (!isVisible) infoTooltip.classList.add('visible');
+      });
+
+      const commentInput = row.querySelector('.subcategory-comment');
+      commentInput.addEventListener('input', () => {
+        commentsObj[sub.key] = commentInput.value;
+      });
+
+      if (sub.locked) return;
+
+      const slider = row.querySelector('.subcategory-slider');
+      const number = row.querySelector('.subcategory-number');
+      const maxLabel = row.querySelector('.max-label');
+      const resetBtn = row.querySelector('.reset-btn');
+
+      function applyValue(rawValue) {
+        let value = Math.max(0, Math.round(Number(rawValue) || 0));
+        if (value > Number(slider.max)) {
+          slider.max = value;
+          maxLabel.textContent = formatCurrency(value);
+        }
+        stateObj[sub.key] = value;
+        slider.value = value;
+        number.value = value;
+        categoryAmountEl.textContent = formatCurrency(sumCategory(category));
+        if (subList.style.maxHeight && subList.style.maxHeight !== '0px') {
+          subList.style.maxHeight = `${subListInner.scrollHeight}px`;
+        }
+        onChange();
       }
-    });
 
-    resetBtn.addEventListener('click', () => applyValue(sub.amount));
+      slider.addEventListener('input', () => applyValue(slider.value));
 
-    infoBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      const isVisible = infoTooltip.classList.contains('visible');
-      document.querySelectorAll('.info-tooltip.visible').forEach(t => t.classList.remove('visible'));
-      if (!isVisible) infoTooltip.classList.add('visible');
+      number.addEventListener('input', () => {
+        if (number.value === '') return;
+        applyValue(number.value);
+      });
+
+      number.addEventListener('blur', () => {
+        if (number.value === '' || isNaN(Number(number.value))) {
+          applyValue(sub.amount);
+        }
+      });
+
+      resetBtn.addEventListener('click', () => applyValue(sub.amount));
     });
   });
-});
+}
 
 document.addEventListener('click', (e) => {
   if (!e.target.closest('.info-wrap')) {
@@ -423,25 +580,56 @@ function updateTotal() {
   updateBudgetStatus(allocated);
 }
 
+const revenueBudgetValueEl = document.getElementById('revenueBudgetValue');
+const revenueAllocatedValueEl = document.getElementById('revenueAllocatedValue');
+revenueBudgetValueEl.textContent = formatCurrency(TOTAL_REVENUE_BUDGET);
+
+function updateRevenueTotal() {
+  const allocated = Object.values(revenueState).reduce((sum, v) => sum + v, 0);
+  revenueAllocatedValueEl.textContent = formatCurrency(allocated);
+}
+
+const categoryGrid = document.getElementById('categoryGrid');
+const revenueGrid = document.getElementById('revenueGrid');
+
+renderSection(CATEGORIES, categoryGrid, state, comments, updateTotal);
+renderSection(REVENUE_CATEGORIES, revenueGrid, revenueState, revenueComments, updateRevenueTotal);
+
 updateTotal();
+updateRevenueTotal();
 
 const submitBtn = document.getElementById('submitBtn');
 const submitNote = document.getElementById('submitNote');
 
+function buildAllocationLog(categoryList, stateObj, commentsObj) {
+  return categoryList.map(category => ({
+    category: category.name,
+    total: category.subcategories.reduce((sum, sub) => sum + stateObj[sub.key], 0),
+    subcategories: category.subcategories.map(sub => ({
+      name: sub.name,
+      amount: stateObj[sub.key],
+      locked: Boolean(sub.locked),
+      comment: commentsObj[sub.key] || ''
+    }))
+  }));
+}
+
 submitBtn.addEventListener('click', () => {
   const allocated = Object.values(state).reduce((sum, v) => sum + v, 0);
+  const revenueAllocated = Object.values(revenueState).reduce((sum, v) => sum + v, 0);
   const result = {
-    allocations: CATEGORIES.map(category => ({
-      category: category.name,
-      total: category.subcategories.reduce((sum, sub) => sum + state[sub.key], 0),
-      subcategories: category.subcategories.map(sub => ({
-        name: sub.name,
-        amount: state[sub.key]
-      }))
-    })),
-    totalAllocated: allocated,
-    totalBudget: TOTAL_BUDGET,
-    difference: allocated - TOTAL_BUDGET
+    expenditures: {
+      allocations: buildAllocationLog(CATEGORIES, state, comments),
+      totalAllocated: allocated,
+      totalBudget: TOTAL_BUDGET,
+      difference: allocated - TOTAL_BUDGET
+    },
+    revenue: {
+      allocations: buildAllocationLog(REVENUE_CATEGORIES, revenueState, revenueComments),
+      totalAllocated: revenueAllocated,
+      totalBudget: TOTAL_REVENUE_BUDGET,
+      difference: revenueAllocated - TOTAL_REVENUE_BUDGET
+    }
   };
   console.log('Kent County Budget Priority Simulator — Final Allocation', result);
   submitNote.textContent = 'Your allocation has been logged to the browser console.';
