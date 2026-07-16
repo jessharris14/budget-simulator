@@ -623,21 +623,23 @@ const statusDot = document.getElementById('statusDot');
 const statusLabel = document.getElementById('statusLabel');
 const statusDetail = document.getElementById('statusDetail');
 
+function getBudgetStatusLabel(diff) {
+  if (Math.abs(diff) < 1) return 'Balanced';
+  return diff < 0 ? 'Surplus' : 'Deficit';
+}
+
 function updateBudgetStatus(allocated) {
   const diff = allocated - TOTAL_BUDGET;
+  const label = getBudgetStatusLabel(diff);
   budgetStatusEl.classList.remove('status-surplus', 'status-balanced', 'status-deficit');
+  budgetStatusEl.classList.add(`status-${label.toLowerCase()}`);
+  statusLabel.textContent = label;
 
-  if (Math.abs(diff) < 1) {
-    budgetStatusEl.classList.add('status-balanced');
-    statusLabel.textContent = 'Balanced';
+  if (label === 'Balanced') {
     statusDetail.textContent = 'Your allocation matches the starting county budget exactly.';
-  } else if (diff < 0) {
-    budgetStatusEl.classList.add('status-surplus');
-    statusLabel.textContent = 'Surplus';
+  } else if (label === 'Surplus') {
     statusDetail.textContent = `${formatCurrency(Math.abs(diff))} under the starting county budget.`;
   } else {
-    budgetStatusEl.classList.add('status-deficit');
-    statusLabel.textContent = 'Deficit';
     statusDetail.textContent = `${formatCurrency(diff)} over the starting county budget.`;
   }
 }
@@ -683,23 +685,47 @@ function buildAllocationLog(categoryList, stateObj, commentsObj) {
   }));
 }
 
-submitBtn.addEventListener('click', () => {
+submitBtn.addEventListener('click', async () => {
   const allocated = Object.values(state).reduce((sum, v) => sum + v, 0);
   const revenueAllocated = Object.values(revenueState).reduce((sum, v) => sum + v, 0);
-  const result = {
-    expenditures: {
-      allocations: buildAllocationLog(CATEGORIES, state, comments),
-      totalAllocated: allocated,
-      totalBudget: TOTAL_BUDGET,
-      difference: allocated - TOTAL_BUDGET
-    },
-    revenue: {
-      allocations: buildAllocationLog(REVENUE_CATEGORIES, revenueState, revenueComments),
-      totalAllocated: revenueAllocated,
-      totalBudget: TOTAL_REVENUE_BUDGET,
-      difference: revenueAllocated - TOTAL_REVENUE_BUDGET
-    }
+  const difference = allocated - TOTAL_BUDGET;
+  const status = getBudgetStatusLabel(difference);
+
+  const submission = {
+    expenditures: buildAllocationLog(CATEGORIES, state, comments),
+    revenue: buildAllocationLog(REVENUE_CATEGORIES, revenueState, revenueComments),
+    totalAllocated: allocated,
+    totalBudget: TOTAL_BUDGET,
+    difference,
+    status,
+    revenueTotalAllocated: revenueAllocated,
+    revenueTotalBudget: TOTAL_REVENUE_BUDGET
   };
-  console.log('Kent County Budget Priority Simulator — Final Allocation', result);
-  submitNote.textContent = 'Your allocation has been logged to the browser console.';
+
+  console.log('Kent County Budget Priority Simulator — Final Allocation', submission);
+
+  submitBtn.disabled = true;
+  submitNote.classList.remove('submit-error');
+  submitNote.textContent = 'Submitting…';
+
+  // Firebase is loaded on demand, right when it's needed, rather than as a
+  // page-load dependency — a slow or blocked CDN request only affects the
+  // Submit action, not the sliders and the rest of the simulator.
+  try {
+    const [{ db }, { collection, addDoc, serverTimestamp }] = await Promise.all([
+      import('./firebase-config.js'),
+      import('https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js')
+    ]);
+    await addDoc(collection(db, 'budgetSubmissions'), {
+      ...submission,
+      submittedAt: serverTimestamp()
+    });
+    submitNote.textContent = 'Thank you — your budget priorities have been recorded.';
+  } catch (err) {
+    console.error('Failed to save budget submission:', err);
+    submitNote.classList.add('submit-error');
+    submitNote.textContent = "Something went wrong saving your submission. Please try again.";
+  } finally {
+    submitBtn.disabled = false;
+  }
 });
