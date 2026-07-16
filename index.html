@@ -26,13 +26,19 @@
       <span class="total-label">County Budget</span>
       <span class="total-value" id="budgetValue">$0</span>
     </div>
-    <div class="total-stat status-stat">
-      <span class="total-label">Status</span>
-      <span class="total-value" id="statusValue">Balanced</span>
-    </div>
   </div>
-  <div class="progress-track">
-    <div class="progress-fill" id="progressFill"></div>
+
+  <div class="composition-chart">
+    <div class="composition-bar" id="compositionBar" role="img" aria-label="Live breakdown of your allocation across the 8 main fund categories"></div>
+    <div class="composition-legend" id="compositionLegend"></div>
+  </div>
+
+  <div class="budget-status" id="budgetStatus">
+    <span class="status-dot" id="statusDot"></span>
+    <span class="status-text">
+      <span class="status-label" id="statusLabel">Balanced</span>
+      <span class="status-detail" id="statusDetail"></span>
+    </span>
   </div>
 </div>
 

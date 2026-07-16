@@ -327,32 +327,100 @@ document.addEventListener('click', (e) => {
   }
 });
 
-const totalBar = document.getElementById('totalBar');
 const allocatedValueEl = document.getElementById('allocatedValue');
 const budgetValueEl = document.getElementById('budgetValue');
-const statusValueEl = document.getElementById('statusValue');
-const progressFill = document.getElementById('progressFill');
 
 budgetValueEl.textContent = formatCurrency(TOTAL_BUDGET);
+
+// The composition chart shows the resident's mix across the 8 main spending
+// categories only — inter-fund transfers aren't a resident spending priority,
+// so they're excluded from this breakdown (they still count toward the
+// overall Surplus/Balanced/Deficit total below).
+const CHART_CATEGORIES = CATEGORIES.filter(c => c.id !== 'other-financing-uses');
+
+const CHART_COLORS = {
+  'general-government': '#2660b8',
+  'judicial': '#eb6834',
+  'public-safety': '#1baf7a',
+  'public-works': '#4a3aa7',
+  'health-welfare': '#eda100',
+  'community-economic-development': '#307fe2',
+  'recreation-culture': '#e87ba4',
+  'other': '#a8623a'
+};
+
+const compositionBar = document.getElementById('compositionBar');
+const compositionLegend = document.getElementById('compositionLegend');
+const segmentEls = {};
+const segmentLabelEls = {};
+const legendPercentEls = {};
+
+CHART_CATEGORIES.forEach(category => {
+  const segment = document.createElement('div');
+  segment.className = 'composition-segment';
+  segment.style.background = CHART_COLORS[category.id];
+  segment.innerHTML = '<span class="segment-label"></span>';
+  compositionBar.appendChild(segment);
+  segmentEls[category.id] = segment;
+  segmentLabelEls[category.id] = segment.querySelector('.segment-label');
+
+  const legendRow = document.createElement('div');
+  legendRow.className = 'legend-row';
+  legendRow.innerHTML = `
+    <span class="legend-swatch" style="background:${CHART_COLORS[category.id]}"></span>
+    <span class="legend-name">${category.name}</span>
+    <span class="legend-percent"></span>
+  `;
+  compositionLegend.appendChild(legendRow);
+  legendPercentEls[category.id] = legendRow.querySelector('.legend-percent');
+});
+
+function updateComposition() {
+  const totals = CHART_CATEGORIES.map(category => ({
+    category,
+    total: category.subcategories.reduce((sum, sub) => sum + state[sub.key], 0)
+  }));
+  const chartSum = totals.reduce((sum, t) => sum + t.total, 0);
+
+  totals.forEach(({ category, total }) => {
+    const pct = chartSum > 0 ? (total / chartSum) * 100 : 0;
+    const segment = segmentEls[category.id];
+    segment.style.width = `${pct}%`;
+    segment.title = `${category.name}: ${formatCurrency(total)} (${pct.toFixed(1)}%)`;
+    segmentLabelEls[category.id].textContent = pct >= 6 ? `${category.name} ${pct.toFixed(0)}%` : '';
+    legendPercentEls[category.id].textContent = `${pct.toFixed(1)}%`;
+  });
+}
+
+const budgetStatusEl = document.getElementById('budgetStatus');
+const statusDot = document.getElementById('statusDot');
+const statusLabel = document.getElementById('statusLabel');
+const statusDetail = document.getElementById('statusDetail');
+
+function updateBudgetStatus(allocated) {
+  const diff = allocated - TOTAL_BUDGET;
+  budgetStatusEl.classList.remove('status-surplus', 'status-balanced', 'status-deficit');
+
+  if (Math.abs(diff) < 1) {
+    budgetStatusEl.classList.add('status-balanced');
+    statusLabel.textContent = 'Balanced';
+    statusDetail.textContent = 'Your allocation matches the starting county budget exactly.';
+  } else if (diff < 0) {
+    budgetStatusEl.classList.add('status-surplus');
+    statusLabel.textContent = 'Surplus';
+    statusDetail.textContent = `${formatCurrency(Math.abs(diff))} under the starting county budget.`;
+  } else {
+    budgetStatusEl.classList.add('status-deficit');
+    statusLabel.textContent = 'Deficit';
+    statusDetail.textContent = `${formatCurrency(diff)} over the starting county budget.`;
+  }
+}
 
 function updateTotal() {
   const allocated = Object.values(state).reduce((sum, v) => sum + v, 0);
   allocatedValueEl.textContent = formatCurrency(allocated);
-
-  const percent = Math.min((allocated / TOTAL_BUDGET) * 100, 100);
-  progressFill.style.width = `${percent}%`;
-
-  const diff = allocated - TOTAL_BUDGET;
-  const isOver = diff > 0;
-  totalBar.classList.toggle('over-budget', isOver);
-
-  if (Math.abs(diff) < 1) {
-    statusValueEl.textContent = 'Balanced';
-  } else if (isOver) {
-    statusValueEl.textContent = `Over by ${formatCurrency(diff)}`;
-  } else {
-    statusValueEl.textContent = `Under by ${formatCurrency(Math.abs(diff))}`;
-  }
+  updateComposition();
+  updateBudgetStatus(allocated);
 }
 
 updateTotal();
