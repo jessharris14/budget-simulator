@@ -2,7 +2,7 @@ const CATEGORIES = [
   {
     id: 'general-government',
     name: 'General Government',
-    desc: 'County board, executive, clerk, treasurer, assessing, elections, buildings and grounds.',
+    desc: 'County board, administration, clerk, treasurer, assessing, elections, buildings and grounds.',
     subcategories: [
       { name: 'Legislative (Council, Board, Commission)', amount: 1415542,
         desc: "Funds the Kent County Board of Commissioners, including commissioner compensation, meetings, and legislative support staff." },
@@ -15,14 +15,14 @@ const CATEGORIES = [
       { name: 'Assessing Equalization', amount: 1869048,
         desc: "Funds property assessment and equalization work that sets taxable property values across the county." },
       { name: 'Finance and Tax Administration', amount: 2691879,
-        desc: "Funds general financial management and tax administration functions not tied to a single county office.",
+        desc: "Funds general financial management and tax administration functions.",
         ambiguous: true },
       { name: 'Elections', amount: 1239620,
         desc: "Funds the administration of county and local elections, including staffing, equipment, and ballot processing." },
       { name: 'Building and Grounds', amount: 15483031,
         desc: "Funds maintenance, utilities, and upkeep of county-owned buildings and grounds." },
       { name: 'Attorney/Corporation Counsel', amount: 390000,
-        desc: "Funds legal counsel services provided to county government." },
+        desc: "Funds legal counsel services provided to Kent County." },
       { name: 'All Other General Government', amount: 14241046,
         desc: "A catch-all line covering general administrative functions not itemized elsewhere in the form, such as HR, IT, or purchasing.",
         ambiguous: true }
@@ -34,9 +34,9 @@ const CATEGORIES = [
     desc: 'Circuit, district, and probate courts, court libraries, probation, and the prosecuting attorney.',
     subcategories: [
       { name: 'Circuit Court', amount: 17669316,
-        desc: "Funds Kent County's Circuit Court, which hears felony criminal cases, civil cases, and family law matters." },
+        desc: "Funds the 17th Circuit Court, which hears felony criminal cases, civil cases, and family law matters." },
       { name: 'District/Municipal Court', amount: 3773439,
-        desc: "Funds the District Court, which handles misdemeanors, traffic violations, and smaller civil claims." },
+        desc: "Funds the 63rd District Court, which handles misdemeanors, traffic violations, and smaller civil claims." },
       { name: 'Law Library', amount: 22000,
         desc: "Funds the county law library, which provides legal research materials for courts, attorneys, and the public." },
       { name: 'Probate Court', amount: 2802393,
@@ -44,7 +44,7 @@ const CATEGORIES = [
       { name: 'Probation', amount: 35334,
         desc: "Funds probation services that supervise people sentenced to community supervision instead of jail." },
       { name: 'Prosecuting Attorney', amount: 6267402,
-        desc: "Funds the Prosecuting Attorney's office, which prosecutes criminal cases on behalf of the county." }
+        desc: "Funds the Prosecutor's Office which prosecutes criminal cases on behalf of the county." }
     ]
   },
   {
@@ -87,13 +87,13 @@ const CATEGORIES = [
       { name: 'Alcoholism and Substance Abuse', amount: 2900000,
         desc: "Funds county substance abuse prevention, treatment, and recovery programs." },
       { name: 'Medical Examiner', amount: 2042188,
-        desc: "Funds the County Medical Examiner's office, which investigates deaths requiring an official cause determination." },
+        desc: "Funds the County Medical Examiner's Office, which investigates deaths requiring an official cause determination." },
       { name: 'Mental Health', amount: 2025942,
         desc: "Funds county-level mental health services and programs." },
       { name: 'Human Services & Medical Care Facility', amount: 492068,
         desc: "Funds county human services programs and any county-operated medical care facility." },
       { name: 'Area Agency on Aging', amount: 16110,
-        desc: "Funds services supporting older adults in Kent County, such as meal programs and senior services coordination." },
+        desc: "Funds services supporting older adults through the Area Agency on Aging of West Michigan, such as meal programs and senior services coordination." },
       { name: 'All Other Health & Welfare', amount: 1465000,
         desc: "A catch-all line covering health and welfare functions not itemized elsewhere in the form.",
         ambiguous: true }
